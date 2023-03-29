@@ -1,0 +1,20 @@
+<div class="container">
+  <img
+    width="300"
+    alt="Angular Logo"
+    [src]="imageUrl"
+    *ngIf="imageUrl; else noImage"
+  />
+
+  <ng-template #noImage let-noImage="emptyImage">
+    <p class="warn">No image is available</p>
+    <img src="./assets/empty-image.png" />
+  </ng-template>
+
+  <!-- <div
+    *ngTemplateOutlet="
+      noImage;
+      context: { emptyImage: './assets/empty-image.png' }
+    "
+  ></div> -->
+</div>

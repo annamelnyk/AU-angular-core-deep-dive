@@ -1,19 +1,16 @@
-<div class="course-card" *ngIf="course" [ngClass]="cardClasses()">
+<div class="course-card" *ngIf="course" [ngClass]="cardClasses()" #cardContainer>
   <div class="course-title" [ngStyle]="cardStyles()">
     {{ (index || "") + " " + course.description }}
   </div>
-  <img
-    width="300"
-    alt="Angular Logo"
-    [src]="course.iconUrl"
-    *ngIf="course.iconUrl; else noImage"
-  />
+
+  <course-image [src]="course.iconUrl"></course-image>
+  <course-image [src]="course.iconUrl"></course-image>
+  <course-image [src]="course.iconUrl"></course-image>
+  
   <!-- Content Projection with ng-content START -->
+  <!-- <ng-content select="course-image"></ng-content> -->
   <ng-content select=".course-number"></ng-content>
   <!-- Content Projection with ng-content END -->
-  <ng-template #noImage>
-    <p>No image is available</p>
-  </ng-template>
 
   <div class="course-description">
     {{ course.longDescription }}

@@ -24,8 +24,9 @@
     (onViewCourse)="clickViewCourse($event)"
     [index]="i + 1"
   >
+
     <!-- Content Projection with ng-content START -->
-    <h4 class="course-number">Course: {{ i + 1 }}</h4>
+    <h4 class="course-number" #courseNumber>Course: {{ i + 1 }}</h4>
     <!-- Content Projection with ng-content END -->
   </card-component>
   <card-component
