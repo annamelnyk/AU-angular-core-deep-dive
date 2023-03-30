@@ -4,33 +4,20 @@
     src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png"
   />
 </div>
-<div>{{ date | date : "MMM d, y" }}</div>
 
-<div class="courses" #containerRef>
-  <card-component
-    *ngFor="
-      let course of courses;
-      index as i;
-      first as isFirst;
-      last as isLast;
-      odd as isOdd;
-      even as isEven
-    "
-    [class.is-first]="isFirst"
-    [class.is-last]="isLast"
-    [class.is-odd]="isOdd"
-    [class.is-even]="isEven"
+<div class="courses" *ngIf="courses[0] as course">
+  <course-card
+    #highlighter="hl"
+    (courseSelected)="onCourseSelected($event)"
     [course]="course"
-    (onViewCourse)="clickViewCourse($event)"
-    [index]="i + 1"
+    highlighted
+    (toggleHighlighted)="onToggle($event)"
   >
-    <!-- Content Projection with ng-content START -->
-    <h4 class="course-number">Course: {{ i + 1 }}</h4>
-    <!-- Content Projection with ng-content END -->
-  </card-component>
-  <card-component
-    [course]="courses[2]"
-    (onViewCourse)="clickViewCourse($event)"
-    #rxjsCourse
-  ></card-component>
+    <course-image [src]="course.iconUrl"></course-image>
+
+    <div class="course-description"
+     (dblclick)="highlighter.toggle()">
+      {{ course.longDescription }}
+    </div>
+  </course-card>
 </div>

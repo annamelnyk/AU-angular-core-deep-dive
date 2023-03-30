@@ -1,14 +1,12 @@
 
 
 export const COURSES: any = [
-    undefined,
 
     {
         id: 1,
         description: "Angular Core Deep Dive",
-        // iconUrl: 'https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-core-in-depth-small.png',
+        iconUrl: 'https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-core-in-depth-small.png',
         longDescription: "A detailed walk-through of the most important part of Angular - the Core and Common modules",
-        // category: 'INTERMEDIATE',
         lessonsCount: 10
     },
     {
@@ -47,7 +45,7 @@ export const COURSES: any = [
     {
         id: 6,
         description: 'Angular PWA Course',
-        longDescription: "<p class='course-description'>Learn Angular Progressive Web Applications, build the future of the Web Today.",
+        longDescription: "Learn Angular Progressive Web Applications, build the future of the Web Today.",
         iconUrl: 'https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-pwa-course.png',
         category: 'ADVANCED',
         lessonsCount: 8
