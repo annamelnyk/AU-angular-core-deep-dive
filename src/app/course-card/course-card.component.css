@@ -1,6 +1,33 @@
-
-.course-card.beginner {
-    background: lightsalmon;
+/* :host - the same as "course-card" selector but here we can only set styles for elements which are in the template */
+/* :host - part of Angular Incapsulation View, it allows us to target the host element of the component itself*/
+:host {
+  display: block;
 }
 
+/* The Host Context Selector - Theming Use Case */
+:host-context(.salmon-theme) .course-card {
+  background-color: salmon;
+}
 
+/* ::ng-deep .salmon-theme .course-card {
+  background-color: salmon;
+} */
+.course-card.beginner {
+  background: lightsalmon;
+}
+
+/* Bypassing View Encapsulation with the ng-deep modifier
+It says that everything that is going after "::ng-deep" is not specified 
+by the parent selector (here by .course-card) 
+
+Here -course-description is template progection and
+specified in app-component
+
+Equal as "::ng-deep .course-description " */
+.course-card ::ng-deep .course-description {
+  max-width: 360px;
+  margin: 0 auto;
+  margin-top: 15px;
+  user-select: none;
+  background-color: yellowgreen;
+}

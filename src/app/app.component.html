@@ -4,8 +4,11 @@
     src="https://angular-academy.s3.amazonaws.com/main-logo/main-page-logo-small-hat.png"
   />
 </div>
+<div class="test salmon-theme">
+    <div class="course-card">Test Course</div>
+</div>
 
-<div class="courses" *ngIf="courses[0] as course">
+<div class="courses salmon-theme" *ngIf="courses[0] as course">
   <course-card
     #highlighter="hl"
     (courseSelected)="onCourseSelected($event)"
