@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  OnInit,
   QueryList,
   ViewChild,
   ViewChildren,
@@ -10,30 +11,25 @@ import { COURSES } from "../db-data";
 import { Course } from "./model/course";
 import { CourseCardComponent } from "./course-card/course-card.component";
 import { HighlightedDirective } from "./directives/highlighted.directive";
+import { Observable } from "rxjs";
+import { CoursesService } from "./services/courses.service";
 
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
-export class AppComponent implements AfterViewInit {
-  courses = COURSES;
+export class AppComponent implements OnInit {
+  //var$ - stands for Observable
+  courses$: Observable<Course[]>;
 
-  @ViewChild(CourseCardComponent, { read: HighlightedDirective })
-  highlighted: HighlightedDirective;
+  constructor(private coursesService: CoursesService) {}
 
-  @ViewChildren(CourseCardComponent, { read: ElementRef })
-  cards: QueryList<ElementRef>;
-
-  constructor() {}
-
-  ngAfterViewInit() {
-    console.log("@ViewChild(HighlightedDirective): ", this.highlighted);
+  ngOnInit() {
+    this.courses$ = this.coursesService.loadCourses();
   }
 
-  onCourseSelected(course: Course) {}
-
-  onToggle(isHighlighted: boolean) {
-    console.log("onToggle isHighlighted ", isHighlighted);
+  save(course: Course) {
+    this.coursesService.saveCourse(course).subscribe(console.log);
   }
 }

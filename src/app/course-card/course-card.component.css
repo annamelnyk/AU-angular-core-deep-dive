@@ -1,33 +1,56 @@
-/* :host - the same as "course-card" selector but here we can only set styles for elements which are in the template */
-/* :host - part of Angular Incapsulation View, it allows us to target the host element of the component itself*/
+
 :host {
   display: block;
 }
 
-/* The Host Context Selector - Theming Use Case */
-:host-context(.salmon-theme) .course-card {
-  background-color: salmon;
+:host.is-first {
+  border-top: 2px solid grey;
+  padding-top: 20px;
 }
 
-/* ::ng-deep .salmon-theme .course-card {
-  background-color: salmon;
-} */
-.course-card.beginner {
+:host.is-last {
+  border-bottom: 2px solid grey;
+  padding-top: 20px;
+}
+
+:host.is-even {
+  background: lightgray;
+}
+
+:host.is-odd {
+  background: lightcyan;
+}
+
+:host-context(.salmon-theme) .course-card {
   background: lightsalmon;
 }
 
-/* Bypassing View Encapsulation with the ng-deep modifier
-It says that everything that is going after "::ng-deep" is not specified 
-by the parent selector (here by .course-card) 
+.course-card {
+  margin-bottom: 40px;
+  text-align: center;
+  border-radius: 4px;
+  padding: 20px 0;
+  box-shadow: 0 1px 16px 0 rgba(0, 0, 0, .2), 0 2px 8px 0 rgba(0, 0, 0, .14), 0 4px 8px -1px rgba(0, 0, 0, .12);
+}
 
-Here -course-description is template progection and
-specified in app-component
+.course-card .course-title {
+  font-size: 27px;
+  font-weight: bold;
+}
 
-Equal as "::ng-deep .course-description " */
-.course-card ::ng-deep .course-description {
+.course-card .course-description {
   max-width: 360px;
   margin: 0 auto;
   margin-top: 15px;
   user-select: none;
-  background-color: yellowgreen;
 }
+
+.course-card .course-description input {
+  font-size: 20px;
+}
+
+.course-card.beginner {
+  background: lightsalmon;
+}
+
+

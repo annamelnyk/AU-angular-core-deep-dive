@@ -1,70 +1,53 @@
 import {
-  AfterContentInit,
-  AfterViewInit,
-  Component,
-  ContentChild,
-  ContentChildren,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  QueryList,
-  TemplateRef,
-  ViewChild,
-  ViewEncapsulation,
-} from "@angular/core";
-import { COURSES } from "../../db-data";
-import { Course } from "../model/course";
-import { CourseImageComponent } from "../course-image/course-image.component";
+    AfterContentInit,
+    AfterViewInit,
+    Component,
+    ContentChildren,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    QueryList,
+    ViewEncapsulation
+} from '@angular/core';
+import {Course} from '../model/course';
+import {CourseImageComponent} from '../course-image/course-image.component';
+import { CoursesService } from '../services/courses.service';
 
 @Component({
-  selector: "course-card",
-  templateUrl: "./course-card.component.html",
-  // View Incapsulation
-  styleUrls: ["./course-card.component.css", "../../assets/styles.css"],
-  encapsulation: ViewEncapsulation.Emulated, // styles incapsulation
+    selector: 'course-card',
+    templateUrl: './course-card.component.html',
+    styleUrls: ['./course-card.component.css']
 })
-export class CourseCardComponent
-  implements OnInit, AfterViewInit, AfterContentInit
-{
-  @Input()
-  course: Course;
+export class CourseCardComponent implements OnInit {
 
-  @Input()
-  cardIndex: number;
+    @Input()
+    course: Course;
 
-  @Output("courseSelected")
-  courseEmitter = new EventEmitter<Course>();
+    @Input()
+    cardIndex: number;
 
-  @ContentChildren(CourseImageComponent, { read: ElementRef })
-  images: QueryList<ElementRef>;
+    @Output('courseChanged')
+    courseEmitter = new EventEmitter<Course>();
 
-  constructor() {}
 
-  ngAfterViewInit() {}
+    constructor() {
 
-  ngAfterContentInit() {}
-
-  ngOnInit() {}
-
-  isImageVisible() {
-    return this.course && this.course.iconUrl;
-  }
-
-  onCourseViewed() {
-    this.courseEmitter.emit(this.course);
-  }
-
-  cardClasses() {
-    if (this.course.category == "BEGINNER") {
-      return "beginner";
     }
-  }
 
-  cardStyles() {
-    return {
-      "background-image": "url(" + this.course.iconUrl + ")",
-    };
-  }
+    ngOnInit() {
+
+    }
+
+
+    onSaveClicked(description:string) {
+
+        this.courseEmitter.emit({...this.course, description});
+
+    }
+
+
+
+
 }

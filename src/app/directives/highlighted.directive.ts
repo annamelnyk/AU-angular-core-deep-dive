@@ -1,66 +1,48 @@
-import {
-  Directive,
-  HostBinding,
-  HostListener,
-  Input,
-  Output,
-  EventEmitter,
-} from "@angular/core";
+import {Directive, EventEmitter, HostBinding, HostListener, Input, Output} from '@angular/core';
 
 @Directive({
-  selector: "[highlighted]",
-  exportAs: "hl",
+    selector: '[highlighted]',
+    exportAs: 'hl'
 })
 export class HighlightedDirective {
-  @Input("highlighted")
-  isHighlighted = false;
 
-  @Output()
-  toggleHighlighted = new EventEmitter();
+    @Input('highlighted')
+    isHighlighted = false;
 
-  constructor() {
-    console.log("Highlighted directive is created");
-  }
+    @Output()
+    toggleHighlight = new EventEmitter();
 
-  // with @HostBinding decorator we can write porperty to the known DOM property (attribute)
-  @HostBinding("class.highlighted")
-  get cssClasses() {
-    return this.isHighlighted;
-  }
+    constructor() {
 
-  // The equal way to write the class ↓:
-  // @HostBinding("className")
-  // get cssClasses() {
-  //   return "highlighted";
-  // }
+        console.log('Directive created..');
 
-  @HostBinding("attr.disabled")
-  get disabled(): boolean {
-    return true;
-  }
+    }
 
-  // Handling events in Directives
-  // we have access to native event object as arguments
-  @HostListener("mouseover", ["$event"])
-  mouseOver($event) {
-    console.log("$event ", $event);
-    this.isHighlighted = true;
-    this.toggleHighlighted.emit(this.isHighlighted);
-  }
+    @HostBinding('class.highlighted')
+    get cssClasses() {
+        return this.isHighlighted;
+    }
 
-  @HostListener("mouseleave")
-  mouseLeave() {
-    this.isHighlighted = false;
-    this.toggleHighlighted.emit(this.isHighlighted);
-  }
+    @HostListener('mouseover', ['$event'])
+    mouseOver($event) {
 
-  // @HostListener("click")
-  // mouseClick() {
-  //   this.toggleHighlighted.emit(this.isHighlighted = !this.isHighlighted);
-  // }
+        console.log($event);
 
-  toggle() {
-    this.isHighlighted = !this.isHighlighted;
-    this.toggleHighlighted.emit(this.isHighlighted);
-  }
+        this.isHighlighted = true;
+        this.toggleHighlight.emit(this.isHighlighted);
+    }
+
+    @HostListener('mouseleave')
+    mouseLeave() {
+        this.isHighlighted = false;
+        this.toggleHighlight.emit(this.isHighlighted);
+    }
+
+    toggle() {
+        this.isHighlighted = !this.isHighlighted;
+        this.toggleHighlight.emit(this.isHighlighted);
+    }
+
+
+
 }
