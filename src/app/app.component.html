@@ -8,6 +8,7 @@
 <div>
   <div class="courses" *ngIf="(courses$ | async)?.payload as courses">
     <course-card
+      highlighted
       *ngFor="let course of courses"
       [course]="course"
       (courseChanged)="save($event)"
