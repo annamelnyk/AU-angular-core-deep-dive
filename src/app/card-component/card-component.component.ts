@@ -1,4 +1,10 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
+} from "@angular/core";
 import { Course } from "../model/course";
 export { CATEGORY } from "../model/constants";
 
@@ -6,6 +12,10 @@ export { CATEGORY } from "../model/constants";
   selector: "card-component",
   templateUrl: "./card-component.component.html",
   styleUrls: ["./card-component.component.css"],
+  // ChangeDetectionStrategy.OnPush is effectively faster and trickier to use
+  // it will detect all changes that come via @input
+  // it doesn't let to mutate existing object directly (see onEditCourse() in app.component.ts)
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CourseCardComponent {
   @Input() course: Course;
@@ -15,6 +25,10 @@ export class CourseCardComponent {
   viewCourse(course: Course) {
     console.log("viewCourse ", course);
     this.onViewCourse.emit(course);
+  }
+
+  onChangeDescription(newTitle: string) {
+    this.course.description = newTitle;
   }
 
   cardClasses() {

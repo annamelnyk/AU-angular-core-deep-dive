@@ -5,8 +5,8 @@
   />
 </div>
 <div>{{ date | date : "MMM d, y" }}</div>
-
-<div class="courses" #containerRef>
+<button (click)="onEditCourse()">Edit Course</button>
+<div class="courses" #containerRef *ngIf="(courses$ | async)?.payload as courses">
   <card-component
     *ngFor="
       let course of courses;

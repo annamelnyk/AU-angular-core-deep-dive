@@ -5,7 +5,11 @@ import {
   ViewChildren,
   AfterViewInit,
   QueryList,
+  OnInit,
+  ChangeDetectionStrategy,
 } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 import { COURSES } from "../db-data";
 import { Course } from "./model/course";
 import { CourseCardComponent } from "./card-component/card-component.component";
@@ -14,9 +18,12 @@ import { CourseCardComponent } from "./card-component/card-component.component";
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements AfterViewInit {
-  courses: Course = COURSES;
+export class AppComponent implements AfterViewInit, OnInit {
+  private COURSES_URL: string = "http://localhost:9000/api/courses/";
+  courses$: Observable<Course[]>;
+  courses: Course[];
   date = new Date();
 
   // @ViewChild and @ViewChildren - is a local quering mechanism.
@@ -31,14 +38,29 @@ export class AppComponent implements AfterViewInit {
   // @ViewChild -decorator, lets us query list of particular children of the AppComponent
   @ViewChildren(CourseCardComponent) cards: QueryList<CourseCardComponent>;
 
-  constructor() {
+  constructor(private http: HttpClient) {
     console.log("@ViewChild container ", this.container);
+  }
+
+  ngOnInit(): void {
+    this.http
+      .get<Course[]>(this.COURSES_URL)
+      .subscribe((courses) => (this.courses = courses));
   }
 
   clickViewCourse(course) {
     console.log("toto", course);
     console.log("@ViewChild container ", this.container);
     console.log("@ViewChild card ", this.card);
+  }
+
+  onEditCourse() {
+    // this way not working because we're trying to mutate the course directly ↓
+    // this.courses[1].description = 'New Title';
+    console.log("onEditCourse");
+    const newCourse = { ...this.courses[1] };
+    newCourse.description = "new Title";
+    this.courses[1] = newCourse;
   }
 
   ngAfterViewInit(): void {
