@@ -4,6 +4,7 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  Attribute,
 } from "@angular/core";
 import { Course } from "../model/course";
 export { CATEGORY } from "../model/constants";
@@ -22,6 +23,11 @@ export class CourseCardComponent {
   @Input() index: number;
   @Output() onViewCourse = new EventEmitter<Course>();
 
+  // @Attribute decorator - is performance optimization of Angular,
+  // which prevents fron continiously checking if value was changed
+  constructor(@Attribute("type") private type: string) {
+    console.log("type ", type);
+  }
   viewCourse(course: Course) {
     console.log("viewCourse ", course);
     this.onViewCourse.emit(course);

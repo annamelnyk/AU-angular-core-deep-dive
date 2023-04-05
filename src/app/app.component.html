@@ -6,7 +6,14 @@
 </div>
 <div>{{ date | date : "MMM d, y" }}</div>
 <button (click)="onEditCourse()">Edit Course</button>
-<div class="courses" #containerRef *ngIf="(courses$ | async)?.payload as courses">
+<div
+  class="courses"
+  #containerRef
+  *ngIf="courses"
+>
+  <!-- if attribute is in [attr] - angular will check if it was changed AfterContentInit
+    every user event. If we know that value will not change - we should use attr syntax
+  (without []). Below type="'beginner'" -->
   <card-component
     *ngFor="
       let course of courses;
@@ -20,6 +27,7 @@
     [class.is-last]="isLast"
     [class.is-odd]="isOdd"
     [class.is-even]="isEven"
+    type="'beginner'"
     [course]="course"
     (onViewCourse)="clickViewCourse($event)"
     [index]="i + 1"

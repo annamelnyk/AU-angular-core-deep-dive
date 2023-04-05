@@ -6,7 +6,9 @@ import {
   AfterViewInit,
   QueryList,
   OnInit,
+  DoCheck,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
@@ -20,11 +22,12 @@ import { CourseCardComponent } from "./card-component/card-component.component";
   styleUrls: ["./app.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements AfterViewInit, OnInit {
+export class AppComponent implements AfterViewInit, OnInit, DoCheck {
   private COURSES_URL: string = "http://localhost:9000/api/courses/";
   courses$: Observable<Course[]>;
   courses: Course[];
   date = new Date();
+  loaded: boolean | undefined = false;
 
   // @ViewChild and @ViewChildren - is a local quering mechanism.
   // They cannot see deeper into children or parents templates
@@ -38,14 +41,25 @@ export class AppComponent implements AfterViewInit, OnInit {
   // @ViewChild -decorator, lets us query list of particular children of the AppComponent
   @ViewChildren(CourseCardComponent) cards: QueryList<CourseCardComponent>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private cd: ChangeDetectorRef) {
     console.log("@ViewChild container ", this.container);
   }
 
+  ngDoCheck(): void {
+    // to prevevnt redundant check, we should add flag this.loaded
+    if (this.loaded) {
+      // Custom Change Detection with ChangeDetectorRef
+      this.cd.markForCheck();
+
+      this.loaded = undefined;
+    }
+  }
+
   ngOnInit(): void {
-    this.http
-      .get<Course[]>(this.COURSES_URL)
-      .subscribe((courses) => (this.courses = courses));
+    this.http.get<Course[]>(this.COURSES_URL).subscribe((courses: any) => {
+      this.courses = courses?.payload;
+      this.loaded = true;
+    });
   }
 
   clickViewCourse(course) {
