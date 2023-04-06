@@ -16,7 +16,7 @@
   (without []). Below type="'beginner'" -->
   <card-component
     *ngFor="
-      let course of courses;
+      let course of courses | filterByCategory: 'BEGINNER';
       index as i;
       first as isFirst;
       last as isLast;

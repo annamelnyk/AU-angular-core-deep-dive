@@ -73,7 +73,7 @@ export class CourseCardComponent
   ngAfterContentChecked() {
     if (this.course) {
       // right place to do last second modification
-      this.course.description = "OnAfterContentChanged";
+      this.course.description = this.course.description + " OnAfterContentChanged";
       // this.course.iconUrl = '';
     }
 
