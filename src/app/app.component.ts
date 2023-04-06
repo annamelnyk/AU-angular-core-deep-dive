@@ -6,6 +6,7 @@ import {
   AfterViewInit,
   QueryList,
   OnInit,
+  OnDestroy,
   DoCheck,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -22,7 +23,7 @@ import { CourseCardComponent } from "./card-component/card-component.component";
   styleUrls: ["./app.component.css"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent implements AfterViewInit, OnInit, DoCheck {
+export class AppComponent implements AfterViewInit, OnInit, DoCheck, OnDestroy {
   private COURSES_URL: string = "http://localhost:9000/api/courses/";
   courses$: Observable<Course[]>;
   courses: Course[];
@@ -41,6 +42,8 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck {
   // @ViewChild -decorator, lets us query list of particular children of the AppComponent
   @ViewChildren(CourseCardComponent) cards: QueryList<CourseCardComponent>;
 
+  // no logic should be implemented in constructor, only
+  // passing the dependencies
   constructor(private http: HttpClient, private cd: ChangeDetectorRef) {
     console.log("@ViewChild container ", this.container);
   }
@@ -62,6 +65,11 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck {
     });
   }
 
+  ngOnDestroy() {
+    // right place for unsubscribe fron resources
+    console.log("Ondestroy");
+  }
+
   clickViewCourse(course) {
     console.log("toto", course);
     console.log("@ViewChild container ", this.container);
@@ -75,6 +83,8 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck {
     const newCourse = { ...this.courses[1] };
     newCourse.description = "new Title";
     this.courses[1] = newCourse;
+
+    this.courses = [];
   }
 
   ngAfterViewInit(): void {
