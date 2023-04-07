@@ -10,12 +10,15 @@ import {
   DoCheck,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Injector,
 } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { COURSES } from "../db-data";
 import { Course } from "./model/course";
 import { CourseCardComponent } from "./card-component/card-component.component";
+import { createCustomElement } from "@angular/elements";
+import { CourseTitleComponent } from "./course-title/course-title.component";
 
 @Component({
   selector: "app-root",
@@ -26,7 +29,7 @@ import { CourseCardComponent } from "./card-component/card-component.component";
 export class AppComponent implements AfterViewInit, OnInit, DoCheck, OnDestroy {
   private COURSES_URL: string = "http://localhost:9000/api/courses/";
   courses$: Observable<Course[]>;
-  courses: Course[];
+  courses: Course[] = COURSES;
   date = new Date();
   loaded: boolean | undefined = false;
   coursesTotal: number;
@@ -45,7 +48,11 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck, OnDestroy {
 
   // no logic should be implemented in constructor, only
   // passing the dependencies
-  constructor(private http: HttpClient, private cd: ChangeDetectorRef) {
+  constructor(
+    private http: HttpClient,
+    private cd: ChangeDetectorRef,
+    private injector: Injector
+  ) {
     console.log("@ViewChild container ", this.container);
   }
 
@@ -65,6 +72,17 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck, OnDestroy {
       this.loaded = true;
       this.coursesTotal = this.courses.length;
     });
+
+    // creating custom Angular element
+    // This is extensiation of Angular component
+    const htmlElement = createCustomElement(CourseTitleComponent, {
+      injector: this.injector,
+    });
+
+    //register custom element in the browser API
+    customElements.define('course-title', htmlElement);
+
+
   }
 
   ngOnDestroy() {

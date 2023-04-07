@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CourseCardComponent } from './card-component/card-component.component';
 import { FilterByCategoryPipe } from './courses/filter-by-category.pipe';
+import { CourseTitleComponent } from './course-title/course-title.component';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { FilterByCategoryPipe } from './courses/filter-by-category.pipe';
     AppComponent,
     CourseCardComponent,
     FilterByCategoryPipe,
+    CourseTitleComponent,
   ],
   imports: [
     // dependencies modules here
@@ -26,6 +28,7 @@ import { FilterByCategoryPipe } from './courses/filter-by-category.pipe';
   bootstrap: [
     // root components for our app
     AppComponent
-  ]
+  ],
+  entryComponents: [CourseTitleComponent]
 })
 export class AppModule { }
