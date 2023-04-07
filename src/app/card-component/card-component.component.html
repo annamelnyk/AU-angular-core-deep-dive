@@ -18,12 +18,22 @@
   <div class="course-description">
     {{ course.longDescription }}
   </div>
-  <input #descriptionInput class="course-description" [value]="course.description" type="text" (keyup)="onChangeDescription(descriptionInput.value)"/>
+  <input
+    #descriptionInput
+    class="course-description"
+    [value]="course.description"
+    type="text"
+    (keyup)="onChangeDescription(descriptionInput.value)"
+  />
   <ng-container [ngSwitch]="course.category?.toLowerCase()">
     <div class="category" *ngSwitchCase="'beginner'">Beginner</div>
     <div class="category" *ngSwitchCase="'intermediate'">Intermediate</div>
     <div class="category" *ngSwitchCase="'advanced'">Advanced</div>
     <div class="category" *ngSwitchDefault>All levels</div>
   </ng-container>
+  <div class="category" i18n>
+    { course.category, select, BEGINNER {Beginner} INTERMEDIATE {Intermediate}
+    ADVANCED {Advanced} }
+  </div>
   <button (click)="viewCourse(course)">View Course</button>
 </div>

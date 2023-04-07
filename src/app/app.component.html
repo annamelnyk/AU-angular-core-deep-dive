@@ -5,18 +5,21 @@
   />
 </div>
 <div>{{ date | date : "MMM d, y" }}</div>
-<button (click)="onEditCourse()">Edit Course</button>
-<div
-  class="courses"
-  #containerRef
-  *ngIf="courses"
->
+<h2 i18n="welcome message|Greet the user at the beginning of the course">
+  Welcome to the Angular Deep Dive Core course!
+</h2>
+<button (click)="onEditCourse()" i18n>Edit Course</button>
+<div i18n>
+  {coursesTotal, plural, =0 {No courses available} =1 { One course is
+  available} other {A total of {{coursesTotal}} courses are available} }
+</div>
+<div class="courses" #containerRef *ngIf="courses">
   <!-- if attribute is in [attr] - angular will check if it was changed AfterContentInit
     every user event. If we know that value will not change - we should use attr syntax
   (without []). Below type="'beginner'" -->
   <card-component
     *ngFor="
-      let course of courses | filterByCategory: 'BEGINNER';
+      let course of courses | filterByCategory : 'BEGINNER';
       index as i;
       first as isFirst;
       last as isLast;

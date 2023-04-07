@@ -29,6 +29,7 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck, OnDestroy {
   courses: Course[];
   date = new Date();
   loaded: boolean | undefined = false;
+  coursesTotal: number;
 
   // @ViewChild and @ViewChildren - is a local quering mechanism.
   // They cannot see deeper into children or parents templates
@@ -62,6 +63,7 @@ export class AppComponent implements AfterViewInit, OnInit, DoCheck, OnDestroy {
     this.http.get<Course[]>(this.COURSES_URL).subscribe((courses: any) => {
       this.courses = courses?.payload;
       this.loaded = true;
+      this.coursesTotal = this.courses.length;
     });
   }
 
